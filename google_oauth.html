@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Calendar Web - Vue.js</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app" class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+            <div class="max-w-md mx-auto">
+                <div class="divide-y divide-gray-200">
+                    <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                        <h1 class="text-2xl font-bold mb-8 text-center">Countdown Calendar Web</h1>
+
+                        <!-- Error Message -->
+                        <div v-if="errorMessage" class="text-center text-red-500 mb-4">
+                            {{ errorMessage }}
+                        </div>
+
+                        <!-- Sign In Button Container -->
+                        <div id="googleSignInButton" class="flex justify-center" v-show="!user"></div>
+
+                        <!-- User Profile Container -->
+                        <div v-if="user" class="text-center">
+                            <img :src="user.picture" alt="Profile" class="w-20 h-20 rounded-full mx-auto mb-4">
+                            <p class="font-semibold">Welcome, {{ user.name }}!</p>
+                            <p class="text-sm text-gray-500 mb-4">{{ user.email }}</p>
+                            <button
+                                    @click="handleSignOut"
+                                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors">
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                user: null,
+                errorMessage: null
+            };
+        },
+
+        methods: {
+            parseJwt(token) {
+                try {
+                    return JSON.parse(atob(token.split('.')[1]));
+                } catch (error) {
+                    return null;
+                }
+            },
+
+            handleCredentialResponse(response) {
+                try {
+                    const decodedToken = this.parseJwt(response.credential);
+
+                    if (!decodedToken) {
+                        throw new Error("Invalid token received.");
+                    }
+
+                    this.user = decodedToken;
+                    this.errorMessage = null;
+                    localStorage.setItem('user', JSON.stringify(decodedToken));
+                } catch (error) {
+                    this.errorMessage = "Authentication failed. Please try again.";
+                    console.error("Authentication error:", error);
+                }
+            },
+
+            handleSignOut() {
+                this.user = null;
+                this.errorMessage = null;
+                localStorage.removeItem('user');
+                google.accounts.id.disableAutoSelect();
+            },
+
+            initializeGoogleSignIn() {
+                google.accounts.id.initialize({
+                    client_id: '74022320040-5aaq169bkriqitue3dcqi8g2o3vk5q16.apps.googleusercontent.com',
+                    callback: this.handleCredentialResponse.bind(this)
+                });
+
+                google.accounts.id.renderButton(
+                    document.getElementById('googleSignInButton'),
+                    { theme: 'outline', size: 'large' }
+                );
+            }
+        },
+
+        mounted() {
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) {
+                this.user = JSON.parse(savedUser);
+            }
+
+            if (window.google) {
+                this.initializeGoogleSignIn();
+            } else {
+                window.onload = () => this.initializeGoogleSignIn();
+            }
+        }
+    });
+
+    app.mount('#app');
+</script>
+</body>
+</html>
