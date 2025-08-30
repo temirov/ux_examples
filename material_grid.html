@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>UI (CDN, Reliable Equal Heights)</title>
+    <title>UI (Navbar: left title + inline search)</title>
 
     <!-- Bootswatch theme -->
     <link id="themeStylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/materia/bootstrap.min.css" rel="stylesheet">
@@ -18,27 +18,30 @@
 
 <!-- TOP BAR -->
 <nav class="navbar navbar-expand sticky-top bg-body border-bottom shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-semibold text-decoration-none" href="#">My App</a>
+    <div class="container-fluid align-items-center">
 
-        <div class="ms-auto d-flex align-items-center gap-4 flex-wrap">
+        <!-- Left: brand (flush-left) -->
+        <a class="navbar-brand fw-semibold text-decoration-none text-start" href="#">My App</a>
 
-            <!-- Search link (default) -->
-            <a id="searchLink" class="text-decoration-none link-body-emphasis d-flex align-items-center gap-1" href="#" aria-controls="searchForm" aria-expanded="false">
-                <i class="bi bi-search"></i><span>Search</span>
-            </a>
-
-            <!-- SEARCH PROMPT (replaces only the Search link) -->
+        <!-- Middle: search prompt (shown only when opened) -->
+        <div class="flex-grow-1 ms-3">
             <form id="searchForm" class="d-none" role="search" autocomplete="off">
                 <div class="input-group">
-                    <input id="searchInput" type="search" class="form-control" placeholder="Search…" aria-label="Search" style="min-width: 280px;">
+                    <input id="searchInput" type="search" class="form-control" placeholder="Search…" aria-label="Search">
                     <button type="button" id="searchClose" class="btn btn-outline-secondary" aria-label="Close search">
                         <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
             </form>
+        </div>
 
-            <!-- Right-side items stay visible -->
+        <!-- Right: actions -->
+        <div class="ms-auto d-flex align-items-center gap-4 flex-wrap">
+            <!-- Search link (stays visible; prompt appears to its left) -->
+            <a id="searchLink" class="text-decoration-none link-body-emphasis d-flex align-items-center gap-1" href="#">
+                <i class="bi bi-search"></i><span>Search</span>
+            </a>
+
             <a class="text-decoration-none link-body-emphasis d-flex align-items-center gap-1" href="#">
                 <i class="bi bi-gear"></i><span>Settings</span>
             </a>
@@ -51,6 +54,7 @@
                 </label>
             </div>
         </div>
+
     </div>
 </nav>
 
@@ -58,9 +62,7 @@
 <main class="container pt-4">
     <h2 class="mb-4">Dashboard</h2>
 
-    <!-- Auto-reflow card grid -->
     <div id="cardsGrid" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-
         <div class="col d-flex">
             <div class="card shadow-sm w-100">
                 <div class="card-body d-flex flex-column">
@@ -68,15 +70,9 @@
                     <p class="card-text">Short summary of the card content goes here.</p>
                     <div class="mt-auto">
                         <div class="row g-2 align-items-center">
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-outline-primary">Details</a>
-                            </div>
-                            <div class="col text-center">
-                                <span class="badge text-bg-secondary">Status: OK</span>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-primary">Open</a>
-                            </div>
+                            <div class="col-auto"><a href="#" class="btn btn-outline-primary">Details</a></div>
+                            <div class="col text-center"><span class="badge text-bg-secondary">Status: OK</span></div>
+                            <div class="col-auto"><a href="#" class="btn btn-primary">Open</a></div>
                         </div>
                     </div>
                 </div>
@@ -85,7 +81,6 @@
 
         <div class="col d-flex">
             <div class="card shadow-sm w-100">
-                <!-- Use a fixed aspect ratio so image heights are consistent -->
                 <div class="ratio ratio-16x9">
                     <img src="https://picsum.photos/800/450?random=1" class="w-100 h-100 object-fit-cover" alt="Cover">
                 </div>
@@ -94,15 +89,9 @@
                     <p class="card-text">Longer content to demonstrate equal-height alignment and auto-reflow.</p>
                     <div class="mt-auto">
                         <div class="row g-2 align-items-center">
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-outline-primary">Details</a>
-                            </div>
-                            <div class="col text-center">
-                                <span class="badge text-bg-secondary">Status: OK</span>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-primary">Open</a>
-                            </div>
+                            <div class="col-auto"><a href="#" class="btn btn-outline-primary">Details</a></div>
+                            <div class="col text-center"><span class="badge text-bg-secondary">Status: OK</span></div>
+                            <div class="col-auto"><a href="#" class="btn btn-primary">Open</a></div>
                         </div>
                     </div>
                 </div>
@@ -116,43 +105,29 @@
                     <p class="card-text">Pure text. Aligns nicely with others.</p>
                     <div class="mt-auto">
                         <div class="row g-2 align-items-center">
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-outline-primary">Details</a>
-                            </div>
-                            <div class="col text-center">
-                                <span class="badge text-bg-secondary">Status: OK</span>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-primary">Open</a>
-                            </div>
+                            <div class="col-auto"><a href="#" class="btn btn-outline-primary">Details</a></div>
+                            <div class="col text-center"><span class="badge text-bg-secondary">Status: OK</span></div>
+                            <div class="col-auto"><a href="#" class="btn btn-primary">Open</a></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- Spacer so content never hides behind bottom bar -->
     <div class="pb-5"></div>
 </main>
 
 <!-- BOTTOM BAR -->
 <nav class="navbar fixed-bottom bg-body border-top shadow-lg">
     <div class="container d-flex justify-content-around">
-        <a class="text-center text-decoration-none link-body-emphasis py-2" href="#">
-            <i class="bi bi-house-door"></i><div><small>Home</small></div>
-        </a>
-        <a class="text-center text-decoration-none link-body-emphasis py-2" href="#">
-            <i class="bi bi-graph-up"></i><div><small>Activity</small></div>
-        </a>
-        <a class="text-center text-decoration-none link-body-emphasis py-2" href="#">
-            <i class="bi bi-person"></i><div><small>Profile</small></div>
-        </a>
+        <a class="text-center text-decoration-none link-body-emphasis py-2" href="#"><i class="bi bi-house-door"></i><div><small>Home</small></div></a>
+        <a class="text-center text-decoration-none link-body-emphasis py-2" href="#"><i class="bi bi-graph-up"></i><div><small>Activity</small></div></a>
+        <a class="text-center text-decoration-none link-body-emphasis py-2" href="#"><i class="bi bi-person"></i><div><small>Profile</small></div></a>
     </div>
 </nav>
 
-<!-- Theme + Search + Equal heights -->
+<!-- Theme + Navbar search + Equal heights -->
 <script>
     // Theme toggle (Bootswatch light/dark)
     (function () {
@@ -175,7 +150,7 @@
         toggle.addEventListener('change', () => apply(toggle.checked ? 'dark' : 'light'));
     })();
 
-    // Navbar search prompt toggle (only swaps the Search link)
+    // Navbar search prompt (appears between brand and search link)
     (function () {
         const searchLink  = document.getElementById('searchLink');
         const searchForm  = document.getElementById('searchForm');
@@ -184,12 +159,10 @@
 
         function openSearch() {
             searchForm.classList.remove('d-none');
-            searchLink.classList.add('d-none');
             searchInput.focus();
         }
         function closeSearch() {
             searchForm.classList.add('d-none');
-            searchLink.classList.remove('d-none');
             searchInput.value = '';
             searchLink.focus();
         }
@@ -198,17 +171,19 @@
         searchClose.addEventListener('click', closeSearch);
         searchInput.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSearch(); });
 
-        // "/" opens search (when not typing)
+        // Quick "/" shortcut to open when not typing
         document.addEventListener('keydown', (e) => {
             const tag = (e.target.tagName || '').toLowerCase();
-            const typing = tag === 'input' || tag === 'textarea' || e.target.isContentEditable;
-            if (!typing && e.key === '/') { e.preventDefault(); openSearch(); }
+            if (e.key === '/' && tag !== 'input' && tag !== 'textarea' && !e.target.isContentEditable) {
+                e.preventDefault(); openSearch();
+            }
         });
 
+        // Optional: on submit, do something then close
         searchForm.addEventListener('submit', (e) => { e.preventDefault(); closeSearch(); });
     })();
 
-    // -------- Equalize card heights (robust) --------
+    // Equalize card heights (same as before)
     function imagesReady() {
         const imgs = Array.from(document.querySelectorAll('#cardsGrid img'));
         if (imgs.length === 0) return Promise.resolve();
@@ -233,13 +208,7 @@
             cards.forEach(c => { c.style.minHeight = maxH + 'px'; });
         });
     }
-
-    async function equalizeWhenReady() {
-        await imagesReady();
-        equalizeCards();
-    }
-
-    // On load + after images + on resize + when grid size changes
+    async function equalizeWhenReady() { await imagesReady(); equalizeCards(); }
     window.addEventListener('load', equalizeWhenReady);
     window.addEventListener('resize', () => {
         clearTimeout(window.__eqCards);
